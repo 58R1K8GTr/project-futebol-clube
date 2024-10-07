@@ -1,5 +1,5 @@
 export type StatusOkType = 'SUCCESSFUL';
-export type StatusErrorType = 'INVALID_DATA';
+export type StatusErrorType = 'INVALID_DATA' | 'NOT_FOUND';
 
 type ResponseOk<Type> = {
   status: StatusOkType;
