@@ -1,10 +1,11 @@
 import * as jwt from 'jsonwebtoken';
+import { IUser } from '../Interfaces/IUser';
 
 const secret = process.env.JWT_SECRET || 'secret';
 
 type TokenPayload = {
   id: number,
-  email: string,
+  data: Pick<IUser, 'id' | 'role' | 'email'>,
 };
 
 function sign(payload: TokenPayload): string {

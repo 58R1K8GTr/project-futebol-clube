@@ -17,7 +17,7 @@ export default class LoginService {
     private loginModel: IUserModel = new User(),
   ) { }
 
-  public async login(loginFields: LoginType): Promise<ServiceResponseType<TokenType>> {
+  public async login(loginFields: LoginType): ServiceResponseType<TokenType> {
     const { email, password } = loginFields;
     if (!fieldsExist([email, password])) {
       return { status: 'BAD_REQUEST', data: { message: 'All fields must be filled' } };
@@ -31,7 +31,7 @@ export default class LoginService {
     if (!user || !bcrypt.compareSync(password, user.password) || !condition.every(Boolean)) {
       return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
     }
-    const token = generateToken(user.id);
+    const token = generateToken(user);
     return { status: 'SUCCESSFUL', data: { token } };
   }
 }
