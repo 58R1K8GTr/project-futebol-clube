@@ -12,6 +12,8 @@ chai.use(chaiHttp);
 const { app } = new App();
 const { expect } = chai;
 
+afterEach(() => sinon.restore());
+
 describe('Testando a rota teams', function() {
   it('Deve retornar todos os times na rota /teams', async function() {
     sinon.stub(TeamsSequelize, 'findAll').resolves(teams as any);
@@ -37,6 +39,6 @@ describe('Testando a rota teams', function() {
     const { status, body } = await chai.request(app).get('/teams/1');
 
     expect(status).to.be.equal(404);
-    expect(body).to.be.equal({ message: 'Team not found' });
+    expect(body).to.be.deep.equal({ message: 'Team not found' });
   });
 })
