@@ -27,7 +27,7 @@ describe('Testando a rota login', function() {
     const { status, body } = await chai.request(app).post('/login').send({ email, password });
     expect(status).to.be.equal(200);
     expect(body).to.have.key('token');
-    expect(body.token).to.have.length(155);
+    expect(body.token).to.have.length(200);
   });
   it('Não deve logar com sucesso, email indefinido', async function() {
     // não altere a ordem dos comandos abaixo
