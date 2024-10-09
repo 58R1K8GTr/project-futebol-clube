@@ -1,16 +1,16 @@
-import { ITeamsModel } from '../Interfaces/ITeamsModel';
+import { ITeamModel } from '../Interfaces/ITeamModel';
 import TeamsSequelize from '../database/models/TeamsSequelize';
-import { ITeams } from '../Interfaces/ITeams';
+import { ITeam } from '../Interfaces/ITeam';
 
-export default class TeamsModel implements ITeamsModel {
+export default class TeamModel implements ITeamModel {
   private model = TeamsSequelize;
 
-  async findAll(): Promise<ITeams[]> {
+  async findAll(): Promise<ITeam[]> {
     const data = await this.model.findAll({ raw: true });
     return data;
   }
 
-  async findById(id: number): Promise<ITeams | null> {
+  async findById(id: number): Promise<ITeam | null> {
     const data = await this.model.findByPk(id, { raw: true });
     return data;
   }

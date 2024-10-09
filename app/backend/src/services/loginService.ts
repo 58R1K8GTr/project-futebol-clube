@@ -1,0 +1,37 @@
+import * as bcrypt from 'bcryptjs';
+import { ServiceResponseType } from '../types/ServiceResponseTypes';
+import IUserModel from '../Interfaces/IUserModel';
+import { LoginType } from '../types/LoginServiceTypes';
+import fieldsExist from './validations/fieldsExist';
+import User from '../models/User';
+import generateToken from '../auth/generateToken';
+import validEmail from './validations/validEmail';
+import validPassword from './validations/validPassword';
+
+type TokenType = {
+  token: string;
+};
+
+export default class LoginService {
+  constructor(
+    private loginModel: IUserModel = new User(),
+  ) { }
+
+  public async login(loginFields: LoginType): Promise<ServiceResponseType<TokenType>> {
+    const { email, password } = loginFields;
+    if (!fieldsExist([email, password])) {
+      return { status: 'BAD_REQUEST', data: { message: 'All fields must be filled' } };
+    }
+    const user = await this.loginModel.findByEmail(email);
+
+    const condition = [
+      validEmail(email),
+      validPassword(password),
+    ];
+    if (!user || !bcrypt.compareSync(password, user.password) || !condition.every(Boolean)) {
+      return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
+    }
+    const token = generateToken(user.id);
+    return { status: 'SUCCESSFUL', data: { token } };
+  }
+}
