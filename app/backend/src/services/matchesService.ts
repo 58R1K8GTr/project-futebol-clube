@@ -5,11 +5,16 @@ import { IMatchesWithTeams } from '../Interfaces/IMatchesWithTeams';
 
 export default class MatchesService {
   constructor(
-    private matchesService: IMatchesModel = new Matches(),
+    private matchesModel: IMatchesModel = new Matches(),
   ) { }
 
   public async getAllMatches(): ServiceResponseType<IMatchesWithTeams[]> {
-    const matches = await this.matchesService.findAll();
+    const matches = await this.matchesModel.findAll();
+    return { status: 'SUCCESSFUL', data: matches };
+  }
+
+  public async getFilteredMatches(inProgress: boolean): ServiceResponseType<IMatchesWithTeams[]> {
+    const matches = await this.matchesModel.findFilteredMatches(inProgress);
     return { status: 'SUCCESSFUL', data: matches };
   }
 }
