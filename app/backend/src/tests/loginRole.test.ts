@@ -32,7 +32,7 @@ describe('testando a rota role', function() {
 
     const { status, body } = await chai.request(app)
       .get('/login/role')
-      .set('Authorization', `Bearer ${validToken}`);
+      .set('authorization', `Bearer ${validToken}`);
 
     expect(status).to.be.equal(200);
     expect(body).to.have.property('role', userRole);
@@ -46,7 +46,7 @@ describe('testando a rota role', function() {
 
     const { status, body } = await chai.request(app)
       .get('/login/role')
-      .set('Authorization', `Bearer ${validToken}`);
+      .set('authorization', `Bearer ${validToken}`);
 
     expect(status).to.be.equal(401);
     expect(body).to.have.property('message', 'Token must be a valid token');
@@ -57,7 +57,7 @@ describe('testando a rota role', function() {
 
     const { status, body } = await chai.request(app)
       .get('/login/role')
-      .set('Authorization', `Bearer ${validToken}`);
+      .set('authorization', `Bearer ${validToken}`);
 
     expect(status).to.be.equal(401);
     expect(body).to.have.property('message', 'Token must be a valid token');
@@ -67,9 +67,9 @@ describe('testando a rota role', function() {
 
     const { status, body } = await chai.request(app)
       .get('/login/role')
-      .set('Authorization', '');
+      .set('authorization', '');
 
     expect(status).to.be.equal(401);
-    expect(body).to.have.property('message', 'Token must be a valid token');
+    expect(body).to.have.property('message', 'Token not found');
   });
 })
