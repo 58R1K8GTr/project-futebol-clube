@@ -15,6 +15,25 @@ export default class MatchesModel implements IMatchesModel {
       raw: true,
       nest: true,
     });
-    return data as unknown as IMatchesWithTeams[];
+    const newData = data.map(
+      ({ inProgress, ...rest }) => ({ inProgress: Boolean(inProgress), ...rest }),
+    );
+    return newData as unknown as IMatchesWithTeams[];
+  }
+
+  public async findFilteredMatches(inProgressArgument: boolean): Promise<IMatchesWithTeams[]> {
+    const data = await this.model.findAll({
+      where: { inProgress: inProgressArgument },
+      include: [
+        { model: TeamsSequelize, as: 'homeTeam', attributes: ['teamName'] },
+        { model: TeamsSequelize, as: 'awayTeam', attributes: ['teamName'] },
+      ],
+      raw: true,
+      nest: true,
+    });
+    const newData = data.map(
+      ({ inProgress, ...rest }) => ({ inProgress: Boolean(inProgress), ...rest }),
+    );
+    return newData as unknown as IMatchesWithTeams[];
   }
 }
