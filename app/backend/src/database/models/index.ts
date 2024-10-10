@@ -1,6 +1,10 @@
-import { Sequelize } from 'sequelize';
-import * as config from '../config/database';
+import db from './config';
+import TeamsSequelize from './TeamsSequelize';
+import MatchesSequelize from './MatchesSequelize';
 
-const sequelize = new Sequelize(config)
+TeamsSequelize.hasMany(MatchesSequelize, { foreignKey: 'homeTeamId', as: 'homeMatches' });
+TeamsSequelize.hasMany(MatchesSequelize, { foreignKey: 'awayTeamId', as: 'awayMatches' });
+MatchesSequelize.belongsTo(TeamsSequelize, { foreignKey: 'homeTeamId', as: 'homeTeam' });
+MatchesSequelize.belongsTo(TeamsSequelize, { foreignKey: 'awayTeamId', as: 'awayTeam' });
 
-export default sequelize;
+export default db;
