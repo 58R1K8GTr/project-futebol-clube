@@ -18,4 +18,10 @@ export default class MatchesController {
     const { status, data } = result;
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  public async changeMatchToFinished(req: Request, res: Response): Promise<Response> {
+    const id = Number(req.params.id);
+    const { status, data } = await this.matchesService.changeMatchToFinished(id);
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }

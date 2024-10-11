@@ -1,11 +1,11 @@
 import { ServiceResponseType } from '../types/ServiceResponseTypes';
 import { ITeam } from '../Interfaces/ITeam';
 import { ITeamModel } from '../Interfaces/ITeamModel';
-import Teams from '../models/Team';
+import TeamsModel from '../models/TeamModel';
 
 export default class TeamsService {
   constructor(
-    private teamsModel: ITeamModel = new Teams(),
+    private teamsModel: ITeamModel = new TeamsModel(),
   ) { }
 
   public async getAllTeams(): ServiceResponseType<ITeam[]> {

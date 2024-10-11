@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwtUtil from '../auth/jwtToken';
 import UserSequelize from '../database/models/UsersSequelize';
-import { IRequestWithId } from '../Interfaces/IRequestWithId';
+import { IRequestWithUser } from '../Interfaces/IRequestWithId';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 
 function extractToken(authorization: string) {
@@ -25,7 +25,7 @@ async function trycatch(params: TryCatchType): Promise<Response | void> {
         .json({ message: 'Token must be a valid token' });
     }
     const { id, email, role } = user;
-    (req as IRequestWithId).user = { id, email, role };
+    (req as IRequestWithUser).user = { id, email, role };
 
     next();
   } catch (e) {

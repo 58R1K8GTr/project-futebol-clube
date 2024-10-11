@@ -16,8 +16,6 @@ const { expect } = chai;
 
 afterEach(() => sinon.restore());
 
-const passwordCriptedUser = '$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO';
-const passwordCriptedAdmin = '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW';
 const validToken = 'token_válido_mockado';
 
 describe('testando a rota role', function() {

@@ -3,7 +3,7 @@ import { ServiceResponseType } from '../types/ServiceResponseTypes';
 import IUserModel from '../Interfaces/IUserModel';
 import { LoginType } from '../types/LoginServiceTypes';
 import fieldsExist from './validations/fieldsExist';
-import User from '../models/User';
+import UsersModel from '../models/UserModel';
 import generateToken from '../auth/generateToken';
 import validEmail from './validations/validEmail';
 import validPassword from './validations/validPassword';
@@ -14,7 +14,7 @@ type TokenType = {
 
 export default class LoginService {
   constructor(
-    private loginModel: IUserModel = new User(),
+    private loginModel: IUserModel = new UsersModel(),
   ) { }
 
   public async login(loginFields: LoginType): ServiceResponseType<TokenType> {
