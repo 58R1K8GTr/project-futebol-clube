@@ -14,7 +14,7 @@ InferCreationAttributes<MatchesSequelize>> {
   declare homeTeamGoals: number;
   declare awayTeamId: number;
   declare awayTeamGoals: number;
-  declare inProgress: boolean;
+  declare inProgress: CreationOptional<boolean>;
 }
 
 MatchesSequelize.init({
@@ -43,6 +43,7 @@ MatchesSequelize.init({
   inProgress: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    defaultValue: true,
   },
 }, {
   sequelize: db,

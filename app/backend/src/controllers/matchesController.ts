@@ -31,4 +31,10 @@ export default class MatchesController {
     const { status, data } = await this.matchesService.changeTeamGoals(id, body);
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  public async postTeamGoals(req: Request, res: Response): Promise<Response> {
+    const { body } = req;
+    const { status, data } = await this.matchesService.postTeamGoals(body);
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }

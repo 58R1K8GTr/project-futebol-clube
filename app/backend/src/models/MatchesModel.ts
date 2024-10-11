@@ -2,7 +2,8 @@ import { IMatchesModel } from '../Interfaces/IMatchesModel';
 import MatchesSequelize from '../database/models/MatchesSequelize';
 import { IMatchesWithTeams } from '../Interfaces/IMatchesWithTeams';
 import TeamsSequelize from '../database/models/TeamsSequelize';
-import { GoalsType } from '../types/MatchesModelType';
+import { GoalsType, MatchType } from '../types/MatchesModelType';
+import { IMatches } from '../Interfaces/IMatches';
 
 export default class MatchesModel implements IMatchesModel {
   private model = MatchesSequelize;
@@ -48,5 +49,10 @@ export default class MatchesModel implements IMatchesModel {
   public async changeTeamGoals(id: number, body: GoalsType): Promise<boolean> {
     const [updatedRows] = await this.model.update({ ...body }, { where: { id } });
     return updatedRows > 0;
+  }
+
+  public async postTeamGoals(body: MatchType): Promise<IMatches> {
+    const created = await this.model.create(body);
+    return created;
   }
 }
