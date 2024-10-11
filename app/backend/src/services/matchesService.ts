@@ -4,6 +4,7 @@ import { IMatchesModel } from '../Interfaces/IMatchesModel';
 import MatchesModel from '../models/MatchesModel';
 import { IMatchesWithTeams } from '../Interfaces/IMatchesWithTeams';
 import { IMatches } from '../Interfaces/IMatches';
+import { equalTeams, teamsDontExist } from './validations/postMatchValidation';
 
 type MessageType = {
   message: string;
@@ -37,6 +38,15 @@ export default class MatchesService {
   }
 
   public async postTeamGoals(body: MatchType): ServiceResponseType<IMatches> {
+    if (equalTeams(body)) {
+      return {
+        status: 'UNPROCESSABLE_ENTITY',
+        data: { message: 'It is not possible to create a match with two equal teams' },
+      };
+    }
+    if (await teamsDontExist(body)) {
+      return { status: 'NOT_FOUND', data: { message: 'There is no team with such id!' } };
+    }
     const data = await this.matchesModel.postTeamGoals(body);
     if (!data) return { status: 'BAD_REQUEST', data: { message: 'Not created' } };
     return { status: 'CREATED', data };
