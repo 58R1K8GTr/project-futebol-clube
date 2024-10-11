@@ -1,3 +1,4 @@
+import { GoalsType } from '../types/MatchesModelType';
 import { ServiceResponseType } from '../types/ServiceResponseTypes';
 import { IMatchesModel } from '../Interfaces/IMatchesModel';
 import MatchesModel from '../models/MatchesModel';
@@ -24,7 +25,13 @@ export default class MatchesService {
 
   public async changeMatchToFinished(id: number): ServiceResponseType<MessageType> {
     const changed = await this.matchesModel.changeMatchToFinished(id);
-    if (!changed) return { status: 'BAD_REQUEST', data: { message: 'Not changed' } };
+    if (!changed) return { status: 'BAD_REQUEST', data: { message: 'Not updated' } };
     return { status: 'SUCCESSFUL', data: { message: 'Finished' } };
+  }
+
+  public async changeTeamGoals(id: number, body: GoalsType): ServiceResponseType<MessageType> {
+    const updated = await this.matchesModel.changeTeamGoals(id, body);
+    if (!updated) return { status: 'BAD_REQUEST', data: { message: 'Not updated' } };
+    return { status: 'SUCCESSFUL', data: { message: 'Updated' } };
   }
 }

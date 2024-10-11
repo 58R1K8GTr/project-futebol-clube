@@ -2,6 +2,7 @@ import { IMatchesModel } from '../Interfaces/IMatchesModel';
 import MatchesSequelize from '../database/models/MatchesSequelize';
 import { IMatchesWithTeams } from '../Interfaces/IMatchesWithTeams';
 import TeamsSequelize from '../database/models/TeamsSequelize';
+import { GoalsType } from '../types/MatchesModelType';
 
 export default class MatchesModel implements IMatchesModel {
   private model = MatchesSequelize;
@@ -41,6 +42,11 @@ export default class MatchesModel implements IMatchesModel {
 
   public async changeMatchToFinished(id: number): Promise<boolean> {
     const [updatedRows] = await this.model.update({ inProgress: false }, { where: { id } });
+    return updatedRows > 0;
+  }
+
+  public async changeTeamGoals(id: number, body: GoalsType): Promise<boolean> {
+    const [updatedRows] = await this.model.update({ ...body }, { where: { id } });
     return updatedRows > 0;
   }
 }
