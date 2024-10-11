@@ -32,8 +32,15 @@ export default class MatchesModel implements IMatchesModel {
       nest: true,
     });
     const newData = data.map(
-      ({ inProgress, ...rest }) => ({ inProgress: Boolean(inProgress), ...rest }),
+      ({ inProgress, ...rest }) => (
+        { inProgress: Boolean(inProgress), ...rest }
+      ),
     );
     return newData as unknown as IMatchesWithTeams[];
+  }
+
+  public async changeMatchToFinished(id: number): Promise<boolean> {
+    const [updatedRows] = await this.model.update({ inProgress: false }, { where: { id } });
+    return updatedRows > 0;
   }
 }

@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { IUser } from './IUser';
 
-export interface IRequestWithId extends Request {
+export interface IRequestWithUser extends Request {
   user: Pick<IUser, 'id' | 'email' | 'role'>;
 }
