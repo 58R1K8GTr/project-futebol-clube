@@ -1,4 +1,4 @@
-export type StatusOkType = 'SUCCESSFUL';
+export type StatusOkType = 'SUCCESSFUL' | 'CREATED';
 export type StatusErrorType = 'BAD_REQUEST' | 'NOT_FOUND' | 'UNAUTHORIZED';
 
 type ResponseOk<Type> = {

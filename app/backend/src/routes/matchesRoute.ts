@@ -7,6 +7,12 @@ const matchesController = new MatchesController();
 
 const router = Router();
 
+router.post(
+  '/',
+  authMiddleware,
+  verifyAdmin,
+  (req: Request, res: Response) => matchesController.postTeamGoals(req, res),
+);
 router.patch(
   '/:id/finish',
   authMiddleware,
