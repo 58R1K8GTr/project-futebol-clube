@@ -13,6 +13,12 @@ router.patch(
   verifyAdmin,
   (req: Request, res: Response) => matchesController.changeMatchToFinished(req, res),
 );
+router.patch(
+  '/:id',
+  authMiddleware,
+  verifyAdmin,
+  (req: Request, res: Response) => matchesController.updateTeamGoals(req, res),
+);
 router.get('/', (req: Request, res: Response) => matchesController.getAllMatches(req, res));
 
 export default router;
