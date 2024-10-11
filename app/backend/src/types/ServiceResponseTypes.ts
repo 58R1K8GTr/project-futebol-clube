@@ -1,5 +1,7 @@
 export type StatusOkType = 'SUCCESSFUL' | 'CREATED';
-export type StatusErrorType = 'BAD_REQUEST' | 'NOT_FOUND' | 'UNAUTHORIZED';
+export type StatusErrorType = (
+  'UNPROCESSABLE_ENTITY' | 'BAD_REQUEST' | 'NOT_FOUND' | 'UNAUTHORIZED'
+);
 
 type ResponseOk<Type> = {
   status: StatusOkType;
