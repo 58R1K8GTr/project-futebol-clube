@@ -5,6 +5,7 @@ import authMiddleware from '../middlewares/auth';
 
 const router = Router();
 
+// essa rota só tem um método estático pois não utiliza o this.
 router.get(
   '/',
   authMiddleware,
