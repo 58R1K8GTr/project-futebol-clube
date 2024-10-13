@@ -12,24 +12,25 @@ export default class LeaderboardModel {
     private _leaderboard: LeaderboardClass = new LeaderboardClass(),
   ) { }
 
-  public async getLeaderboardHome(): Promise<ILeaderboard[]> {
-    const teamsMap: { [teamName: string]: TeamClass } = {};
+  private async getLeaderboard(): Promise<void> {
     this._leaderboard = new LeaderboardClass();
     const finalizedMatches = await this.getFinalizedMatches();
-    // refatorar e colocar em uma classe essa constante e botar na service?
-    finalizedMatches.forEach((match) => {
-      [match.homeTeam.teamName, match.awayTeam.teamName].forEach((teamName) => {
-        if (!teamsMap[teamName]) {
-          teamsMap[teamName] = new TeamClass(teamName);
-          this._leaderboard.addTeam(teamsMap[teamName]);
-        }
-      });
-      const homeTeam = teamsMap[match.homeTeam.teamName];
-      const awayTeam = teamsMap[match.awayTeam.teamName];
-      this._leaderboard
-        .addMatch(new MatchClass(homeTeam, awayTeam, match.homeTeamGoals, match.awayTeamGoals));
-    });
+    this.processData(finalizedMatches);
+  }
+
+  public async getLeaderboardHome(): Promise<ILeaderboard[]> {
+    await this.getLeaderboard();
     return this._leaderboard.getLeaderboardHome();
+  }
+
+  public async getLeaderboardAway(): Promise<ILeaderboard[]> {
+    await this.getLeaderboard();
+    return this._leaderboard.getLeaderboardAway();
+  }
+
+  public async getAllLeaderboard(): Promise<ILeaderboard[]> {
+    await this.getLeaderboard();
+    return this._leaderboard.getLeaderboardFull();
   }
 
   private async getFinalizedMatches(): Promise<IMatchesWithTeams[]> {
@@ -42,5 +43,21 @@ export default class LeaderboardModel {
       raw: true,
       nest: true,
     }) as unknown as IMatchesWithTeams[];
+  }
+
+  private processData(finalizedMatches: IMatchesWithTeams[]): void {
+    const teamsMap: { [teamName: string]: TeamClass } = {};
+    finalizedMatches.forEach((match) => {
+      [match.homeTeam.teamName, match.awayTeam.teamName].forEach((teamName) => {
+        if (!teamsMap[teamName]) {
+          teamsMap[teamName] = new TeamClass(teamName);
+          this._leaderboard.addTeam(teamsMap[teamName]);
+        }
+      });
+      const homeTeam = teamsMap[match.homeTeam.teamName];
+      const awayTeam = teamsMap[match.awayTeam.teamName];
+      this._leaderboard
+        .addMatch(new MatchClass(homeTeam, awayTeam, match.homeTeamGoals, match.awayTeamGoals));
+    });
   }
 }

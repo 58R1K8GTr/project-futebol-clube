@@ -11,6 +11,6 @@ router.use('/teams', teamsRouter);
 router.use('/login', loginRouter);
 router.use('/login/role', loginRoleRouter);
 router.use('/matches', matchesRouter);
-router.use('/leaderboard/home', leaderboardRoute);
+router.use('/leaderboard', leaderboardRoute);
 
 export default router;
