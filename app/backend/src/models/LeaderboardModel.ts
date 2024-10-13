@@ -14,9 +14,10 @@ export default class LeaderboardModel {
 
   public async getLeaderboardHome(): Promise<ILeaderboard[]> {
     const teamsMap: { [teamName: string]: TeamClass } = {};
+    this._leaderboard = new LeaderboardClass();
     const finalizedMatches = await this.getFinalizedMatches();
-    // refatorar e colocar em uma classe essa constante?
-    const matches = finalizedMatches.map((match) => {
+    // refatorar e colocar em uma classe essa constante e botar na service?
+    finalizedMatches.forEach((match) => {
       [match.homeTeam.teamName, match.awayTeam.teamName].forEach((teamName) => {
         if (!teamsMap[teamName]) {
           teamsMap[teamName] = new TeamClass(teamName);
@@ -25,10 +26,10 @@ export default class LeaderboardModel {
       });
       const homeTeam = teamsMap[match.homeTeam.teamName];
       const awayTeam = teamsMap[match.awayTeam.teamName];
-      return new MatchClass(homeTeam, awayTeam, match.homeTeamGoals, match.awayTeamGoals);
+      this._leaderboard
+        .addMatch(new MatchClass(homeTeam, awayTeam, match.homeTeamGoals, match.awayTeamGoals));
     });
-    LeaderboardModel.processMatches(matches);
-    return this._leaderboard.getLeaderboard();
+    return this._leaderboard.getLeaderboardHome();
   }
 
   private async getFinalizedMatches(): Promise<IMatchesWithTeams[]> {
@@ -41,11 +42,5 @@ export default class LeaderboardModel {
       raw: true,
       nest: true,
     }) as unknown as IMatchesWithTeams[];
-  }
-
-  private static processMatches(matches: MatchClass[]): void {
-    matches.forEach((match) => {
-      LeaderboardClass.addMatch(match);
-    });
   }
 }

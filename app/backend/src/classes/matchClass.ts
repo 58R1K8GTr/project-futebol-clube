@@ -21,12 +21,34 @@ export default class MatchClass implements IMatchClass {
     this.isFinalized = false;
   }
 
-  public finalizeMatch(): void {
+  public finalizeMatchHome(): void {
+    this.homeTeam.updateStats(this.homeTeamGoals, this.awayTeamGoals);
+    this.finalizeMatch();
+  }
+
+  public finalizeMatchAway(): void {
+    this.awayTeam.updateStats(this.awayTeamGoals, this.homeTeamGoals);
+    this.finalizeMatch();
+  }
+
+  public finalizeAllMatches(): void {
+    this.homeTeam.updateStats(this.homeTeamGoals, this.awayTeamGoals);
+    this.awayTeam.updateStats(this.awayTeamGoals, this.homeTeamGoals);
+    this.finalizeMatch();
+  }
+
+  private finalizeMatch(): void {
     if (!this.isFinalized) {
-      this.homeTeam.updateStats(this.homeTeamGoals, this.awayTeamGoals);
-      this.awayTeam.updateStats(this.awayTeamGoals, this.homeTeamGoals);
       this.isFinalized = true;
     }
+  }
+
+  public getHomeTeam(): TeamClass {
+    return this.homeTeam;
+  }
+
+  public getAwayTeam(): TeamClass {
+    return this.awayTeam;
   }
 
   public isMatchFinalized(): boolean {
